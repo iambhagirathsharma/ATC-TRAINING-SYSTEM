@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daily Attendance Entry</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+
+body{
+    background:#f4f7fb;
+    font-family:'Segoe UI',sans-serif;
+}
+
+.header{
+    background:#0D47A1;
+    color:white;
+    padding:20px;
+}
+
+.entry-card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.hours-box{
+    background:#e3f2fd;
+    border-radius:10px;
+    padding:15px;
+    text-align:center;
+}
+
+.hours-box h3{
+    color:#0D47A1;
+    margin:0;
+}
+
+.table-card{
+    background:white;
+    border-radius:15px;
+    padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="container">
+
+        <h3>
+            Daily Attendance Entry
+        </h3>
+
+        <p>
+            ATC Training Management System
+        </p>
+
+    </div>
+
+</div>
+
+<div class="container py-4">
+
+    <div class="row">
+
+        <div class="col-lg-8">
+
+            <div class="entry-card">
+
+                <h4 class="mb-4">
+
+                    Today's Entry
+
+                </h4>
+
+                <form id="attendanceForm">
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label>
+                                Date
+                            </label>
+
+                               <input
+                                type="date"
+                                class="form-control"
+                                id="date"
+                                readonly>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label>
+                                Training Type
+                            </label>
+
+                            <select
+                                class="form-select"
+                                id="trainingType">
+
+                                <option>
+                                    OJT
+                                </option>
+
+                                <option>
+                                    Theory
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label>
+                                From Time
+                            </label>
+
+                            <input
+                                type="time"
+                                class="form-control"
+                                id="fromTime"
+                                readonly>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label>
+                                To Time
+                            </label>
+
+                            <input
+                            type="time"
+                            class="form-control"
+                            id="toTime">
+
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+
+                            <label>
+                                Comments / Debriefing
+                            </label>
+
+                            <textarea
+                                rows="4"
+                                class="form-control"
+                                id="remarks"
+                                placeholder="Enter today's work details">
+                            </textarea>
+
+                        </div>
+
+                    </div>
+
+                   <button
+                        type="submit"
+                        class="btn btn-primary">
+                        Submit Entry
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <!-- Hours Summary -->
+
+        <div class="col-lg-4">
+
+            <div class="hours-box mb-3">
+
+                <h6>
+                    Today's Hours
+                </h6>
+
+                <h3 id="totalHours">
+                    0
+                </h3>
+
+            </div>
+
+            <div class="hours-box mb-3">
+
+                <h6>
+                    OJT Hours
+                </h6>
+
+                <h3>
+                    125 / 180
+                </h3>
+
+            </div>
+
+            <div class="hours-box">
+
+                <h6>
+                    Training Days
+                </h6>
+
+                <h3>
+                    65 / 90
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Attendance History -->
+
+    <div class="table-card mt-4">
+
+        <h4 class="mb-3">
+
+            Attendance History
+
+        </h4>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover">
+
+                <thead>
+
+                <tr>
+
+                    <th>Date</th>
+
+                    <th>Type</th>
+
+                    <th>From</th>
+
+                    <th>To</th>
+
+                    <th>Hours</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <tr>
+
+                    <td>19-06-2026</td>
+
+                    <td>OJT</td>
+
+                    <td>09:00</td>
+
+                    <td>11:00</td>
+
+                    <td>2</td>
+
+                    <td>
+
+                        <span
+                        class="badge bg-success">
+
+                        Approved
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const loggedInUser =
+JSON.parse(
+    localStorage.getItem("user")
+);
+
+console.log(loggedInUser);
+
+const today =
+new Date()
+.toISOString()
+.split("T")[0];
+
+document
+.getElementById("date")
+.max = today;
+
+document
+.getElementById("date")
+.value = today;
+
+function setMaxTime()
+{
+    const now =
+    new Date();
+
+    const hours =
+    String(
+        now.getHours()
+    ).padStart(2,"0");
+
+    const minutes =
+    String(
+        now.getMinutes()
+    ).padStart(2,"0");
+
+    const currentTime =
+    `${hours}:${minutes}`;
+
+    document
+    .getElementById(
+        "fromTime"
+    )
+    .max = currentTime;
+
+    document
+    .getElementById(
+        "toTime"
+    )
+    .max = currentTime;
+}
+
+setMaxTime();
+
+const now =
+new Date();
+
+const currentHours =
+String(
+    now.getHours()
+).padStart(2,"0");
+
+const currentMinutes =
+String(
+    now.getMinutes()
+).padStart(2,"0");
+
+const currentTime =
+`${currentHours}:${currentMinutes}`;
+
+document.getElementById(
+    "fromTime"
+).value = currentTime;
+
+const fromTime =
+document.getElementById(
+"fromTime"
+);
+
+const toTime =
+document.getElementById(
+"toTime"
+);
+
+function calculateHours(){
+
+if(fromTime.value && toTime.value){
+
+const start =
+new Date(
+`2026-01-01 ${fromTime.value}`
+);
+
+const end =
+new Date(
+`2026-01-01 ${toTime.value}`
+);
+
+const diff =
+(end - start) /
+1000 / 60 / 60;
+
+document.getElementById(
+"totalHours"
+).innerText =
+diff > 0 ? diff : 0;
+
+}
+
+}
+
+fromTime.addEventListener(
+"change",
+calculateHours
+);
+
+toTime.addEventListener(
+"change",
+calculateHours
+);
+
+document
+.getElementById("attendanceForm")
+.addEventListener(
+"submit",
+saveAttendance
+);
+
+async function saveAttendance(e)
+{
+     e.preventDefault();
+
+     const selectedDate =
+document.getElementById("date").value;
+
+if(!selectedDate)
+{
+    alert(
+        "Please select date"
+    );
+    return;
+}
+
+if(selectedDate !== today)
+{
+    alert(
+        "Only today's attendance can be submitted"
+    );
+    return;
+}
+
+    if(
+    document.getElementById("toTime").value <=
+    document.getElementById("fromTime").value
+)
+{
+    alert(
+        "Departure time must be greater than arrival time"
+    );
+    return;
+}
+
+if(
+    Number(
+        document.getElementById(
+            "totalHours"
+        ).innerText
+    ) > 8
+)
+{
+    alert(
+        "Maximum 8 hours allowed per day"
+    );
+    return;
+}
+
+    const attendanceData =
+    {
+        traineeId:
+        loggedInUser._id,
+
+        date:
+        document.getElementById(
+            "date"
+        ).value,
+
+        arrivalTime:
+        document.getElementById(
+            "fromTime"
+        ).value,
+
+        departureTime:
+        document.getElementById(
+            "toTime"
+        ).value,
+
+        totalHours:
+        Number(
+            document.getElementById(
+                "totalHours"
+            ).innerText
+        ),
+        trainingType:
+            document.getElementById(
+                "trainingType"
+            ).value,
+
+            remarks:
+            document.getElementById(
+                "remarks"
+            ).value.trim(),
+        status:
+        "Present"
+    };
+
+    try
+{
+    const response =
+    await fetch(
+        "http://localhost:5000/api/attendance/add",
+        {
+            method:"POST",
+
+            headers:
+            {
+                "Content-Type":
+                "application/json"
+            },
+
+            body:
+            JSON.stringify(
+                attendanceData
+            )
+        }
+    );
+
+    const result =
+    await response.json();
+
+    alert(result.message);
+}
+catch(error)
+{
+    console.log(error);
+}
+}
+
+</script>
+
+</body>
+</html>

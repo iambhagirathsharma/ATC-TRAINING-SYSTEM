@@ -1,0 +1,114 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+}
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:#0D47A1;
+    color:white;
+    padding:20px;
+}
+
+.logo{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.logo img{
+    width:70px;
+    margin-bottom:10px;
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:0;
+}
+
+.sidebar li{
+    padding:14px;
+    margin-bottom:10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.sidebar li:hover,
+.sidebar .active{
+    background:rgba(255,255,255,.15);
+}
+
+.sidebar i{
+    margin-right:10px;
+}
+
+.content{
+    flex:1;
+    padding:30px;
+}
+
+.topbar{
+    margin-bottom:30px;
+}
+
+.topbar h3{
+    color:#0D47A1;
+    font-weight:700;
+}
+
+.stat-card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.stat-card h2{
+    color:#0D47A1;
+    font-weight:700;
+}
+
+.module-card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.module-card:hover{
+    transform:translateY(-5px);
+}
+
+.module-card i{
+    font-size:40px;
+    color:#0D47A1;
+}
+
+.module-card h5{
+    margin-top:15px;
+}
+
+@media(max-width:768px){
+
+    .wrapper{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+    }
+
+}
